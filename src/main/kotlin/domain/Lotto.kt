@@ -7,6 +7,10 @@ class Lotto(numbers : List<Int>) {
         return lottoNumbers.count { it in winningNumbers }
     }
 
+    fun containsBonusNumber(number : Int) : Boolean {
+        return lottoNumbers.contains(number)
+    }
+
     init {
         require(numbers.size == LOTTO_COUNT) {
             "로또 번호는 ${LOTTO_COUNT}개여야 합니다."

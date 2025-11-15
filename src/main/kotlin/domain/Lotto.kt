@@ -3,6 +3,10 @@ package domain
 class Lotto(numbers : List<Int>) {
     val lottoNumbers : List<Int>
 
+    fun matchCount(winningNumbers : List<Int>) : Int {
+        return lottoNumbers.count { it in winningNumbers }
+    }
+
     init {
         require(numbers.size == LOTTO_COUNT) {
             "로또 번호는 ${LOTTO_COUNT}개여야 합니다."

@@ -3,8 +3,8 @@ package domain
 class Lotto(numbers : List<Int>) {
     val lottoNumbers : List<Int>
 
-    fun matchCount(winningNumbers : List<Int>) : Int {
-        return lottoNumbers.count { it in winningNumbers }
+    fun matchCount(winningNumbers : Lotto) : Int {
+        return lottoNumbers.count { it in winningNumbers.lottoNumbers }
     }
 
     fun containsBonusNumber(number : Int) : Boolean {

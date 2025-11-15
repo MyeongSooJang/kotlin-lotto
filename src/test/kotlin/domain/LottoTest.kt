@@ -66,15 +66,15 @@ class LottoTest : DescribeSpec({
 
                 it("6개 일치하면 6을 반환한다") {
 
-                    lotto.matchCount(listOf(2, 34, 24, 27, 9, 1)) shouldBe 6
+                    lotto.matchCount(Lotto(listOf(2, 34, 24, 27, 9, 1))) shouldBe 6
                 }
 
                 it("4개 일치하면 4를 반환한다.") {
-                    lotto.matchCount(listOf(1, 2, 24, 27, 44, 45)) shouldBe 4
+                    lotto.matchCount(Lotto(listOf(1, 2, 24, 27, 44, 45))) shouldBe 4
                 }
 
                 it("2개 일치하면 2를 반환한다.") {
-                    lotto.matchCount(listOf(1, 2, 21, 22, 44, 45)) shouldBe 2
+                    lotto.matchCount(Lotto(listOf(1, 2, 21, 22, 44, 45))) shouldBe 2
                 }
             }
         }

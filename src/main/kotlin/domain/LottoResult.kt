@@ -10,14 +10,18 @@ class LottoResult(val bundleResult: Map<Rank, Int>) {
         }
     }
 
+    fun getTotalPrize(): Long {
+        return bundleResult.entries.sumOf { (rank, count) -> rank.prize * count }
+    }
+
     fun calculateProfitRate(purchaseAmount: Long): Double {
-        val totalPrize = bundleResult.entries.sumOf { (rank, count) -> rank.prize * count }
+        val totalPrize = getTotalPrize()
         return (totalPrize.toDouble() / purchaseAmount) * 100
     }
 
     fun printProfitRate(purchaseAmount: Long) {
         val rate = calculateProfitRate(purchaseAmount)
-        println("총 수익률은 %.2f%%".format(rate))
+        println("총 수익률은 %.1f%%".format(rate))
 
     }
 }

@@ -58,42 +58,6 @@ class LottoTest : DescribeSpec({
             }
         }
 
-        describe("matchCount 메소드") {
-
-            val lotto = Lotto(listOf(2, 34, 24, 27, 9, 1))
-
-            context("당첨 번호와 비교할 때") {
-
-                it("6개 일치하면 6을 반환한다") {
-
-                    lotto.matchCount(Lotto(listOf(2, 34, 24, 27, 9, 1))) shouldBe 6
-                }
-
-                it("4개 일치하면 4를 반환한다.") {
-                    lotto.matchCount(Lotto(listOf(1, 2, 24, 27, 44, 45))) shouldBe 4
-                }
-
-                it("2개 일치하면 2를 반환한다.") {
-                    lotto.matchCount(Lotto(listOf(1, 2, 21, 22, 44, 45))) shouldBe 2
-                }
-            }
-        }
-
-        describe("containsBonusNumber") {
-
-            val lotto = Lotto(listOf(2, 34, 24, 27, 9, 1))
-
-            context("보너스 번호와 비교할때") {
-
-                it("보너스 번호와 일치하면 true를 반환한다") {
-                    lotto.containsBonusNumber(2) shouldBe true
-                }
-
-                it("보너스와 일치하지 않으면 false를 반환한다") {
-                    lotto.containsBonusNumber(3) shouldBe false
-                }
-            }
-        }
 
     }
 

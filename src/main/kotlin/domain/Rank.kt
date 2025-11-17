@@ -18,9 +18,6 @@ enum class Rank(val matchCount: Int,
         }
     }
 
-    fun getPrize() : Long {
-        return prize
-    }
 
 
 }

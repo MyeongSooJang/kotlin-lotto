@@ -3,11 +3,10 @@ package domain
 class LottoGenerator {
 
     companion object {
-        val LOTTO_NUMBER_RANGE = 1..45
-        val LOTTO_NUMBER_COUNT = 6
-
-        fun generate() : List<Int>{
-            return LOTTO_NUMBER_RANGE.shuffled().take(LOTTO_NUMBER_COUNT)
+        fun generate(): Lotto {
+            val numbers = (LottoConstant.LOTTO_RANGE)
+                .shuffled().take(LottoConstant.LOTTO_COUNT)
+            return Lotto(numbers)
         }
     }
 }

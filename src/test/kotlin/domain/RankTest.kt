@@ -21,7 +21,7 @@ class RankTest : DescribeSpec ({
             }
 
             it("당첨번호와 4개 일치하면 4등을 반환"){
-                val result = Rank.findRank(4,false) shouldBe Rank.FORTH
+                val result = Rank.findRank(4,false) shouldBe Rank.FOURTH
             }
 
             it("당첨번호와 3개 일치히마녀 5등을 반환"){

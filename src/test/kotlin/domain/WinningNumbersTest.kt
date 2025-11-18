@@ -85,7 +85,7 @@ class WinningNumbersTest : DescribeSpec({
             it("당첨번호와 4개 일치하면 4등을 반환한다") {
                 val lotto = Lotto(listOf(1, 2, 3, 4, 15, 16))
 
-                winningNumbers.match(lotto) shouldBe Rank.FORTH
+                winningNumbers.match(lotto) shouldBe Rank.FOURTH
             }
 
             it("당첨번호와 3개 일치하면 5등을 반환한다") {

@@ -32,7 +32,7 @@ class LottoResultTest : DescribeSpec({
                     Rank.FIRST to 1,
                     Rank.SECOND to 1,
                     Rank.THIRD to 2,
-                    Rank.FORTH to 3,
+                    Rank.FOURTH to 3,
                     Rank.FIFTH to 5
                 )
                 val lottoResult = LottoResult(bundleResult)
@@ -103,7 +103,7 @@ class LottoResultTest : DescribeSpec({
             it("10,000원 투자, 65,000원 당첨 시 수익률은 650%이다") {
                 val bundleResult = mapOf(
                     Rank.FIFTH to 3,
-                    Rank.FORTH to 1
+                    Rank.FOURTH to 1
                 )
                 val lottoResult = LottoResult(bundleResult)
 

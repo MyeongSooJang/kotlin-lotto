@@ -27,14 +27,7 @@ class WinningNumbers(val numbers : List<Int>, val bonusNumber : Int) {
     }
 
     private fun calculateRank(matchCount : Int, hasBonus : Boolean) : Rank {
-        return when (matchCount) {
-            6 -> Rank.FIRST
-            5 if hasBonus -> Rank.SECOND
-            5 -> Rank.THIRD
-            4 -> Rank.FORTH
-            3 -> Rank.FIFTH
-            else -> Rank.NONE
-        }
+        return Rank.findRank(matchCount, hasBonus)
     }
 
 }

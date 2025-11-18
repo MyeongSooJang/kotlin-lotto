@@ -31,38 +31,30 @@ class LottoBundleTest : DescribeSpec({
         val lotto3 = Lotto(listOf(1, 2, 3, 4, 5, 23))
         val lotto4 = Lotto(listOf(1, 2, 3, 4, 5, 43))
 
-        val winningLotto = Lotto(listOf(1, 2, 3, 4, 5, 6))
-        val bonusNumber = 7
+        val lottoBundle = LottoBundle(listOf(lotto1, lotto2, lotto3, lotto4))
 
         context("당첨 번호와 비교 할 때") {
 
+            it("1등과 2등이 각각 하나 씩 있는 경우") {
+                val winningNumber = WinningNumbers(listOf(1, 2, 3, 4, 5, 6), 7)
+                val result = lottoBundle.checkRanks(winningNumber)
+
+                result[Rank.FIRST] shouldBe 1
+                result[Rank.SECOND] shouldBe 1
+            }
+
+            it("3등이 여러 개 존재 하는 경우") {
+                val winningNumber = WinningNumbers(listOf(1, 2, 3, 4, 5, 9), 8)
+                val result = lottoBundle.checkRanks(winningNumber)
+
+                result[Rank.THIRD] shouldBe 4
+            }
+
+            it("모두 낙첨이 되는 경우") {
+                val winningNumber = WinningNumbers(listOf(11, 12, 13, 14, 15, 19), 8)
+                val result = lottoBundle.checkRanks(winningNumber)
+                result[Rank.NONE] shouldBe 4
+            }
         }
-
-        it("1등과 2등이 각각 하나 씩 있는 경우"){
-            val lottoBundle = LottoBundle(listOf(lotto1, lotto2))
-            val result = lottoBundle.checkRanks(winningLotto, bonusNumber)
-
-            result[Rank.FIRST] shouldBe 1
-            result[Rank.SECOND] shouldBe 1
-        }
-
-        it("3등이 여러 개 존재 하는 경우"){
-            val lottoBundle = LottoBundle(listOf(lotto3, lotto4))
-            val result = lottoBundle.checkRanks(winningLotto, bonusNumber)
-
-            result[Rank.THIRD] shouldBe 2
-        }
-
-        it("모두 낙첨이 되는 경우"){
-            val fail1 = Lotto(listOf(21, 22, 23, 24, 25, 26))
-            val fail2 = Lotto(listOf(21, 22, 23, 24, 25, 36))
-            val fail3 = Lotto(listOf(21, 22, 23, 24, 25, 45))
-
-            val lottoBundle = LottoBundle(listOf(fail1, fail2, fail3))
-            val result = lottoBundle.checkRanks(winningLotto, bonusNumber)
-
-            result[Rank.NONE] shouldBe 3
-        }
-
     }
 })

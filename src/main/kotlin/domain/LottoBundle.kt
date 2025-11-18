@@ -11,6 +11,4 @@ class LottoBundle(private val lottos: List<Lotto>) {
     }
 
     fun getLotto() : List<Lotto> = lottos
-
-    fun getSize() : Int = lottos.size
 }

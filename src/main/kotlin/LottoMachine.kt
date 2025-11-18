@@ -38,12 +38,8 @@ class LottoMachine(
     }
 
     private fun getPurchaseType(): PurchaseType {
-        val purchaseType = inputView.readPurchaseType()
-        return when (purchaseType.toInt()) {
-            1 -> PurchaseType.AUTO
-            2 -> PurchaseType.MANUAL
-            else -> throw IllegalArgumentException("1 또는 2를 입력해주세요.")
-        }
+        val input = inputView.readPurchaseType().toInt()
+        return PurchaseType.from(input)
     }
 
     private fun getPurchaseAmount(): Int {
@@ -91,7 +87,7 @@ class LottoMachine(
         return List(count){ it ->
             val numbersInput = inputView.readManualLottoNumbers(it)
             val numbers = parseNumbers(numbersInput)
-            Lotto(numbers)
+            LottoGenerator.generate(numbers)
         }
     }
 

@@ -24,13 +24,9 @@ class OutputView {
 
     fun showWinningStatistics(lottoResult: LottoResult) {
         println("\n=== 당첨 통계 ===")
-        Rank.entries
-            .filter { it != Rank.NONE }
-            .reversed()
-            .forEach { rank ->
-                val count = lottoResult.bundleResult.getOrDefault(rank, 0)
-                showMatchResult(rank, count)
-            }
+        lottoResult.bundleResult.forEach { (rank, count) ->
+            showMatchResult(rank, count)
+        }
     }
 
     private fun showMatchResult(rank: Rank, count: Int) {

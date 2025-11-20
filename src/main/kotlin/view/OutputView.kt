@@ -17,7 +17,7 @@ class OutputView {
     fun showPurchasedLottos(lottoBundle: LottoBundle) {
         println("\n=== 구매한 로또 번호 ===")
         lottoBundle.getLotto().forEachIndexed { index, lotto ->
-            println("${index + 1}번째 로또: ${lotto.lottoNumbers}")
+            println("${index + 1}번째 로또: ${lotto.lottoNumbers.joinToString(",")}}")
         }
         println()
     }

@@ -26,7 +26,7 @@ class LottoApplicationTest : DescribeSpec({
 
                 rankResults shouldNotBe null
                 lottoResult shouldNotBe null
-                lottoResult.getTotalPrize() shouldNotBe null
+                lottoResult.totalPrize shouldNotBe null
             }
 
             it("수동 로또 생성부터 프로세스가 동작한다") {
@@ -66,7 +66,7 @@ class LottoApplicationTest : DescribeSpec({
                 rankResults[Rank.FIFTH] shouldBe 2
                 rankResults[Rank.NONE] shouldBe 3
 
-                lottoResult.getTotalPrize() shouldBe 10_000L
+                lottoResult.totalPrize shouldBe 10_000L
 
                 lottoResult.calculateProfitRate(5_000L) shouldBe 200.0
             }
@@ -82,7 +82,7 @@ class LottoApplicationTest : DescribeSpec({
                 val lottoResult = LottoResult(rankResults)
 
                 rankResults[Rank.FIRST] shouldBe 1
-                lottoResult.getTotalPrize() shouldBe 2_000_000_000L
+                lottoResult.totalPrize shouldBe 2_000_000_000L
 
                 val profitRate = lottoResult.calculateProfitRate(2_000L)
                 profitRate shouldBe 100_000_000.0
@@ -101,7 +101,7 @@ class LottoApplicationTest : DescribeSpec({
 
 
                 rankResults[Rank.SECOND] shouldBe 1
-                lottoResult.getTotalPrize() shouldBe 30_000_000L
+                lottoResult.totalPrize shouldBe 30_000_000L
             }
 
             it("시나리오 4: 전부 낙첨") {
@@ -117,7 +117,7 @@ class LottoApplicationTest : DescribeSpec({
                 val lottoResult = LottoResult(rankResults)
 
                 rankResults[Rank.NONE] shouldBe 3
-                lottoResult.getTotalPrize() shouldBe 0L
+                lottoResult.totalPrize shouldBe 0L
                 lottoResult.calculateProfitRate(3_000L) shouldBe 0.0
             }
 
@@ -143,7 +143,7 @@ class LottoApplicationTest : DescribeSpec({
                 rankResults[Rank.NONE] shouldBe 1
 
                 val expectedTotal = 2_000_000_000L + 30_000_000L + 1_500_000L + 50_000L + 5_000L
-                lottoResult.getTotalPrize() shouldBe expectedTotal
+                lottoResult.totalPrize shouldBe expectedTotal
 
                 val profitRate = lottoResult.calculateProfitRate(6_000L)
                 profitRate shouldBe (expectedTotal.toDouble() / 6_000.0 * 100)
@@ -167,7 +167,7 @@ class LottoApplicationTest : DescribeSpec({
                 val rankResults = lottoBundle.checkRanks(winningNumbers)
                 val lottoResult = LottoResult(rankResults)
 
-                val totalPrize = lottoResult.getTotalPrize()
+                val totalPrize = lottoResult.totalPrize
                 val profitRate = lottoResult.calculateProfitRate(totalPrice.amount)
 
                 totalPrize shouldNotBe null
@@ -196,7 +196,7 @@ class LottoApplicationTest : DescribeSpec({
                 rankResults[Rank.SECOND] shouldBe 1
                 rankResults[Rank.NONE] shouldBe 1
 
-                val totalPrize = lottoResult.getTotalPrize()
+                val totalPrize = lottoResult.totalPrize
                 totalPrize shouldBe 2_030_000_000L
 
                 val profitRate = lottoResult.calculateProfitRate(totalPrice.amount)

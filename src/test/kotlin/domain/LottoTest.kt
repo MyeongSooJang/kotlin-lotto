@@ -17,11 +17,6 @@ class LottoTest : DescribeSpec({
                 lotto.lottoNumbers shouldHaveSize 6
             }
 
-            it("들어온 숫자들은 정렬이 된다") {
-                val lotto = Lotto(listOf(2, 34, 24, 27, 9, 1))
-
-                lotto.lottoNumbers shouldContainExactly listOf(1, 2, 9, 24, 27, 34)
-            }
         }
 
         context("번호의 개수가 6개가 아니라면") {

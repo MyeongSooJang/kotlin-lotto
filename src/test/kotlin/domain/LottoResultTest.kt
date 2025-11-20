@@ -14,7 +14,7 @@ class LottoResultTest : DescribeSpec({
                 )
                 val lottoResult = LottoResult(bundleResult)
 
-                lottoResult.getTotalPrize() shouldBe 2_000_000_000L
+                lottoResult.totalPrize shouldBe 2_000_000_000L
             }
 
             it("3등 2개, 5등 3개일 때 총 당첨금은 3,015,000원이다") {
@@ -24,7 +24,7 @@ class LottoResultTest : DescribeSpec({
                 )
                 val lottoResult = LottoResult(bundleResult)
 
-                lottoResult.getTotalPrize() shouldBe 3_015_000L
+                lottoResult.totalPrize shouldBe 3_015_000L
             }
 
             it("모든 등수가 섞여 있을 때 총합을 계산한다") {
@@ -37,7 +37,7 @@ class LottoResultTest : DescribeSpec({
                 )
                 val lottoResult = LottoResult(bundleResult)
 
-                lottoResult.getTotalPrize() shouldBe 2_033_175_000L
+                lottoResult.totalPrize shouldBe 2_033_175_000L
             }
 
             it("당첨이 없을 때 총 당첨금은 0원이다") {
@@ -46,14 +46,14 @@ class LottoResultTest : DescribeSpec({
                 )
                 val lottoResult = LottoResult(bundleResult)
 
-                lottoResult.getTotalPrize() shouldBe 0L
+                lottoResult.totalPrize shouldBe 0L
             }
 
             it("빈 결과일 때 총 당첨금은 0원이다") {
                 val bundleResult = emptyMap<Rank, Int>()
                 val lottoResult = LottoResult(bundleResult)
 
-                lottoResult.getTotalPrize() shouldBe 0L
+                lottoResult.totalPrize shouldBe 0L
             }
 
         }

@@ -1,8 +1,11 @@
 package domain
 
-class WinningNumbers(val numbers : List<Int>, val bonusNumber : Int) {
+data class WinningNumbers(
+    val numbers: List<Int>,
+    val bonusNumber: Int
+) {
 
-    init{
+    init {
         require(numbers.size == LottoConstant.LOTTO_COUNT) {
             "당첨 번호는 ${LottoConstant.LOTTO_COUNT}개여야 합니다."
         }
@@ -20,14 +23,12 @@ class WinningNumbers(val numbers : List<Int>, val bonusNumber : Int) {
         }
     }
 
-    fun match(lotto : Lotto) : Rank {
-        val matchCount = numbers.count { it in lotto.lottoNumbers }
-        val hasBonus = lotto.lottoNumbers.contains(bonusNumber)
-        return calculateRank(matchCount, hasBonus)
-    }
-
-    private fun calculateRank(matchCount : Int, hasBonus : Boolean) : Rank {
-        return Rank.findRank(matchCount, hasBonus)
-    }
-
+    fun match(lotto: Lotto): Rank =
+        Rank.findRank(
+            matchCount = numbers.count {
+                it in lotto.lottoNumbers
+            },
+            matchBonusNumber =
+                lotto.lottoNumbers.contains(bonusNumber)
+        )
 }

@@ -54,7 +54,7 @@ class OutputView {
     fun showFinalResult(lottoResult: LottoResult, purchaseAmount: Long) {
         showWinningStatistics(lottoResult)
 
-        val totalPrize = lottoResult.getTotalPrize()
+        val totalPrize = lottoResult.totalPrize
         showTotalPrize(totalPrize)
 
         val profitRate = lottoResult.calculateProfitRate(purchaseAmount)

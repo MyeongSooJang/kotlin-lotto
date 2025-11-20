@@ -1,14 +1,10 @@
 package domain
 
-class LottoResult(val bundleResult: Map<Rank, Int>) {
+data class LottoResult(val bundleResult: Map<Rank, Int>) {
 
-    fun getTotalPrize(): Long {
-        return bundleResult.entries.sumOf { (rank, count) -> rank.prize * count }
-    }
+    val totalPrize
+        get() = bundleResult.entries.sumOf { (rank, count) -> rank.prize * count }
 
-    fun calculateProfitRate(purchaseAmount: Long): Double {
-        val totalPrize = getTotalPrize()
-        return (totalPrize.toDouble() / purchaseAmount) * 100
-    }
-
+    fun calculateProfitRate(purchaseAmount: Long): Double =
+        (totalPrize.toDouble() / purchaseAmount) * 100
 }

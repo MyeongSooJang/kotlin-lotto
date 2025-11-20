@@ -155,12 +155,12 @@ class LottoApplicationTest : DescribeSpec({
             it("자동 구매 -> 당첨 확인 -> 결과 출력의 전체 흐름이 동작한다") {
                 val purchaseType = PurchaseType.from(1)
 
-                val count = 5
-                val lottos = List(count) { LottoGenerator.generate() }
+                val count = Count(5)
+                val lottos = List(count.value) { LottoGenerator.generate() }
                 val lottoBundle = LottoBundle(lottos)
 
                 val totalPrice = count * LottoConstant.LOTTO_PRICE
-                totalPrice shouldBe 5_000
+                totalPrice.amount shouldBe 5_000
 
                 val winningNumbers = WinningNumbers(listOf(1, 2, 3, 4, 5, 6), 7)
 
@@ -168,7 +168,7 @@ class LottoApplicationTest : DescribeSpec({
                 val lottoResult = LottoResult(rankResults)
 
                 val totalPrize = lottoResult.getTotalPrize()
-                val profitRate = lottoResult.calculateProfitRate(totalPrice.toLong())
+                val profitRate = lottoResult.calculateProfitRate(totalPrice.amount)
 
                 totalPrize shouldNotBe null
                 profitRate shouldNotBe null
@@ -185,7 +185,7 @@ class LottoApplicationTest : DescribeSpec({
                 val lottos = manualInputs.map { LottoGenerator.generate(it) }
                 val lottoBundle = LottoBundle(lottos)
 
-                val totalPrice = 3 * LottoConstant.LOTTO_PRICE
+                val totalPrice = LottoConstant.LOTTO_PRICE * Count(3)
 
                 val winningNumbers = WinningNumbers(listOf(1, 2, 3, 4, 5, 6), 7)
 
@@ -199,7 +199,7 @@ class LottoApplicationTest : DescribeSpec({
                 val totalPrize = lottoResult.getTotalPrize()
                 totalPrize shouldBe 2_030_000_000L
 
-                val profitRate = lottoResult.calculateProfitRate(totalPrice.toLong())
+                val profitRate = lottoResult.calculateProfitRate(totalPrice.amount)
                 profitRate shouldBe (2_030_000_000.0 / 3_000.0 * 100)
             }
         }

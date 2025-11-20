@@ -1,15 +1,16 @@
 package view
 import domain.LottoBundle
 import domain.LottoResult
+import domain.Money
 import domain.Rank
 
 class OutputView {
-    fun showLottoTotalPrice(lottoTotalPrice: Int){
-        println("로또 총 금액은 ${lottoTotalPrice}원 입니다")
+    fun showLottoTotalPrice(lottoTotalPrice: Money){
+        println("로또 총 금액은 ${lottoTotalPrice.amount}원 입니다")
     }
 
-    fun showChange(change: Int){
-        println("거스름돈은 ${change}원입니다")
+    fun showChange(change: Money) {
+        println("거스름돈은 ${change.amount}원입니다")
     }
 
     fun showPurchasedLottos(lottoBundle: LottoBundle) {

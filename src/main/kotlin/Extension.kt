@@ -1,30 +1,20 @@
+import domain.Count
 import domain.LottoConstant
-import domain.LottoConstant.PURCHASE_COUNT_RANGE
+import domain.Money
 import domain.PurchaseType
 
 fun String.toPurchaseType(): PurchaseType =
-    toIntOrNull()?.let {PurchaseType.from(it)}
+    toIntOrNull()?.let { PurchaseType.from(it) }
         ?: error("숫자를 입력해주세요")
 
-
-fun String.toPurchaseCount(): Int {
+fun String.toPurchaseCount(): Count {
     val count = toIntOrNull() ?: error("유효한 숫자를 입력해주세요")
-
-    require(count in PURCHASE_COUNT_RANGE) {
-        "로또는 1~100장까지 구매 가능합니다."
-    }
-
-    return count
+    return Count(count)  // Count의 init에서 검증됨
 }
 
-fun String.toPayment(totalPrice: Int): Int {
-    val payment = toIntOrNull() ?: error("유효한 숫자를 입력해주세요")
-
-    require(payment >= totalPrice) {
-        "최소 ${totalPrice}원이 필요합니다. (${totalPrice - payment}원 부족)"
-    }
-
-    return payment
+fun String.toMoney(): Money {
+    val amount = toLongOrNull() ?: error("유효한 금액을 입력해주세요")
+    return Money(amount)
 }
 
 fun String.toLottoNumbers(): List<Int> =

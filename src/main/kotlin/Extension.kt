@@ -23,13 +23,10 @@ fun String.toLottoNumbers(): List<Int> =
             it.trim().toIntOrNull() ?: error("유효한 숫자를 입력해주세요")
         }
 
-fun String.toBonusNumber(): Int {
-    val bonus = toIntOrNull()
-        ?: error("유효한 숫자를 입력해주세요")
+fun String.toBonusNumber(): Int =
+    toIntOrNull().apply {
+        require(this in LottoConstant.LOTTO_RANGE) {
+            "로또 번호는 ${LottoConstant.LOTTO_RANGE.first}부터 ${LottoConstant.LOTTO_RANGE.last}까지여야 합니다"
+        }
+    } ?: error("유효한 숫자를 입력해주세요")
 
-    require(bonus in LottoConstant.LOTTO_RANGE) {
-        "로또 번호는 ${LottoConstant.LOTTO_RANGE.first}부터 ${LottoConstant.LOTTO_RANGE.last}까지여야 합니다"
-    }
-
-    return bonus
-}

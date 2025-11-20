@@ -4,7 +4,6 @@ import domain.LottoBundle
 import domain.LottoConstant
 import domain.LottoGenerator
 import domain.LottoResult
-import domain.Money
 import domain.PurchaseType
 import domain.WinningNumbers
 import view.InputView
@@ -48,12 +47,14 @@ class LottoMachine(
     private fun generateLottos(
         purchaseType: PurchaseType,
         purchaseCount: Count
-    ): LottoBundle = LottoBundle(
-        when (purchaseType) {
-            PurchaseType.AUTO -> generateAutoLottos(purchaseCount.value)
-            PurchaseType.MANUAL -> generateManualLottos(purchaseCount.value)
-        }
-    )
+    ): LottoBundle = with(purchaseCount.value) {
+        LottoBundle(
+            when (purchaseType) {
+                PurchaseType.AUTO -> generateAutoLottos(this)
+                PurchaseType.MANUAL -> generateManualLottos(this)
+            }
+        )
+    }
 
     private fun generateAutoLottos(count: Int): List<Lotto> =
         List(count) { LottoGenerator.generate() }

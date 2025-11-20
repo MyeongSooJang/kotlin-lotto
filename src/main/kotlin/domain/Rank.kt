@@ -18,6 +18,9 @@ enum class Rank(val matchCount: Int,
         }
     }
 
-
-
+    fun getMatchInfo(): String = when (this) {
+        FIRST -> "${matchCount}개 일치"
+        SECOND -> "${matchCount}개 일치, 보너스 번호 일치"
+        else -> "${matchCount}개 일치"
+    }
 }

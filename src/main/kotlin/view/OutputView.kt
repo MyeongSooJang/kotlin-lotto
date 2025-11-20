@@ -1,11 +1,12 @@
 package view
+
 import domain.LottoBundle
 import domain.LottoResult
 import domain.Money
 import domain.Rank
 
 class OutputView {
-    fun showLottoTotalPrice(lottoTotalPrice: Money){
+    fun showLottoTotalPrice(lottoTotalPrice: Money) {
         println("로또 총 금액은 ${lottoTotalPrice.amount}원 입니다")
     }
 
@@ -33,11 +34,7 @@ class OutputView {
     }
 
     private fun showMatchResult(rank: Rank, count: Int) {
-        val matchInfo = when (rank) {
-            Rank.FIRST -> "${rank.matchCount}개 일치"
-            Rank.SECOND -> "${rank.matchCount}개 일치, 보너스 번호 일치"
-            else -> "${rank.matchCount}개 일치"
-        }
+        val matchInfo = rank.getMatchInfo()
         val prizeFormatted = String.format("%,d", rank.prize)
         println("$matchInfo (${prizeFormatted}원) - ${count}개")
     }
@@ -54,11 +51,9 @@ class OutputView {
     fun showFinalResult(lottoResult: LottoResult, purchaseAmount: Long) {
         showWinningStatistics(lottoResult)
 
-        val totalPrize = lottoResult.totalPrize
-        showTotalPrize(totalPrize)
+        showTotalPrize(lottoResult.totalPrize)
 
-        val profitRate = lottoResult.calculateProfitRate(purchaseAmount)
-        showProfitRate(profitRate)
+        showProfitRate(lottoResult.calculateProfitRate(purchaseAmount))
     }
 
 

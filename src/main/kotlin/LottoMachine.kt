@@ -63,7 +63,8 @@ class LottoMachine(
         List(count) { it ->
             inputView.readManualLottoNumbers(it)
                 .toLottoNumbers()
-                .let { LottoGenerator.generate(it) }
+                .let (LottoGenerator::generate)
+
         }
 
     private fun getWinningNumbers(): WinningNumbers = WinningNumbers(

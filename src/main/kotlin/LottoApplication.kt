@@ -1,6 +1,5 @@
 package controller
 
-import LottoController
 import view.InputView
 import view.OutputView
 

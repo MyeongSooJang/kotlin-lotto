@@ -1,11 +1,11 @@
 package controller
 
-import LottoMachine
+import LottoController
 import view.InputView
 import view.OutputView
 
 fun main() {
-    LottoMachine(
+    LottoController(
         inputView = InputView(),
         outputView = OutputView()
     ).apply { run() }

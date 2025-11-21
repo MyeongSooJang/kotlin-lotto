@@ -1,10 +1,7 @@
-import domain.Count
-import domain.LottoConstant
-import domain.Money
+package domain
+
 import domain.Result.Success
 import domain.Result.Failure
-import domain.PurchaseType
-import domain.Result
 
 fun String.toPurchaseType(): Result<PurchaseType> =
     toIntOrNull()?.let { Success(PurchaseType.from(it)) }

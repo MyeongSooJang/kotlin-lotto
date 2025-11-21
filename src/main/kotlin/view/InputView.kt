@@ -1,6 +1,6 @@
 package view
 
-class InputView {
+open class InputView {
     companion object {
         val INPUT_MESSAGE = """
             === 코틀린 로또 머신 ===
@@ -16,32 +16,32 @@ class InputView {
 
     }
 
-    fun readPurchaseType() : String {
+    open fun readPurchaseType() : String {
         println(INPUT_MESSAGE)
         return readln()
     }
 
-    fun readPurchaseCount() : String{
+    open fun readPurchaseCount() : String{
         println(PURCHASE_AMOUNT_MESSAGE)
         return readln()
     }
 
-    fun readInputMoney() : String {
+    open fun readInputMoney() : String {
         println(INPUT_MONEY_MESSAGE)
         return readln()
     }
 
-    fun readManualLottoNumbers(index : Int) : String {
+    open fun readManualLottoNumbers(index : Int) : String {
         println(MANUAL_LOTTO_MESSAGE.format(index))
         return readln()
     }
 
-    fun readWinningLottoNumbers() : String {
+    open fun readWinningLottoNumbers() : String {
         println(WINNING_LOTTO_MESSAGE)
         return readln()
     }
 
-    fun readBonusNumber() : String {
+    open fun readBonusNumber() : String {
         println(BONUS_NUMBER_MESSAGE)
         return readln()
     }

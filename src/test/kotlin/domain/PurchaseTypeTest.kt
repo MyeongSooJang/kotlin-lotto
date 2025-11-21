@@ -38,6 +38,41 @@ class PurchaseTypeTest : DescribeSpec({
                 exception.message shouldContain "1과 2중에서 입력하세요"
             }
 
+            it("음수를 입력하면 NoSuchElementException을 던진다") {
+                val exception = shouldThrow<NoSuchElementException> {
+                    PurchaseType.from(-1)
+                }
+                exception.message shouldContain "1과 2중에서 입력하세요"
+            }
+
+            it("매우 큰 숫자를 입력하면 NoSuchElementException을 던진다") {
+                val exception = shouldThrow<NoSuchElementException> {
+                    PurchaseType.from(100)
+                }
+                exception.message shouldContain "1과 2중에서 입력하세요"
+            }
+        }
+
+        context("각 타입의 value 속성") {
+
+            it("AUTO의 value는 1이다") {
+                PurchaseType.AUTO.value shouldBe 1
+            }
+
+            it("MANUAL의 value는 2이다") {
+                PurchaseType.MANUAL.value shouldBe 2
+            }
+        }
+
+        context("Enum entries") {
+
+            it("PurchaseType은 2개의 값을 가진다") {
+                PurchaseType.entries.size shouldBe 2
+            }
+
+            it("entries에 AUTO와 MANUAL이 포함된다") {
+                PurchaseType.entries shouldBe listOf(PurchaseType.AUTO, PurchaseType.MANUAL)
+            }
         }
     }
 })

@@ -32,7 +32,7 @@ open class InputView {
     }
 
     open fun readManualLottoNumbers(index: Int): String {
-        println(MANUAL_LOTTO_MESSAGE.format(index))
+        println(MANUAL_LOTTO_MESSAGE.format(index + 1))
         return readln()
     }
 

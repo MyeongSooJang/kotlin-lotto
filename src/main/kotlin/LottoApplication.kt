@@ -9,3 +9,4 @@ fun main() {
         outputView = OutputView()
     ).apply { run() }
 }
+

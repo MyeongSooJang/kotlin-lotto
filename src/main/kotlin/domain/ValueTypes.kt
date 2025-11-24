@@ -3,8 +3,8 @@ package domain
 @JvmInline
 value class Money(val amount: Long) {
     init {
-        require(amount > 0) {
-            "금액은 0보다 커야 합니다"
+        require(amount >= 0) {
+            "금액은 음수가 될수 없습니다"
         }
     }
 

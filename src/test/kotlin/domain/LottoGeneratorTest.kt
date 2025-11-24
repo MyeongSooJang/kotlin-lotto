@@ -10,13 +10,9 @@ class LottoGeneratorTest : DescribeSpec({
     describe("LottoGenerator") {
 
         context("랜덤 generate()") {
-            it("생성된 로또는 6개의 숫자를 가진다") {
+            it("생성된 로또는 6개의 유효한 숫자를 가진다") {
                 val lotto = LottoGenerator.generate()
                 lotto.lottoNumbers.size shouldBe 6
-            }
-
-            it("생성된 로또의 모든 숫자는 1~45 범위이다") {
-                val lotto = LottoGenerator.generate()
                 lotto.lottoNumbers.forAll { number ->
                    number shouldBeInRange LottoConstant.LOTTO_RANGE
                 }
@@ -25,12 +21,6 @@ class LottoGeneratorTest : DescribeSpec({
             it("생성된 로또는 중복된 숫자가 없다") {
                 val lotto = LottoGenerator.generate()
                 lotto.lottoNumbers.size shouldBe lotto.lottoNumbers.distinct().size
-            }
-
-            it("생성된 로또는 6개의 숫자 범위에 있다") {
-                val lotto = LottoGenerator.generate()
-                lotto.lottoNumbers.size shouldBe LottoConstant.LOTTO_COUNT
-                lotto.lottoNumbers.forAll { it shouldBeInRange LottoConstant.LOTTO_RANGE }
             }
 
             it("생성된 로또는 정렬되어 있다") {
@@ -78,17 +68,5 @@ class LottoGeneratorTest : DescribeSpec({
             }
         }
 
-        context("생성된 로또의 특성") {
-
-            it("생성된 로또는 정렬되어 있다") {
-                val lotto = LottoGenerator.generate()
-                lotto.lottoNumbers shouldBe lotto.lottoNumbers.sorted()
-            }
-
-            it("생성된 로또는 중복이 없다") {
-                val lotto = LottoGenerator.generate()
-                lotto.lottoNumbers.distinct().size shouldBe 6
-            }
-        }
     }
 })

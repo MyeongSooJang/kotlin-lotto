@@ -123,9 +123,9 @@ class LottoBundleTest : DescribeSpec({
                 val lotto3 = Lotto(listOf(1, 2, 3, 4, 5, 10))
                 val lotto4 = Lotto(listOf(1, 2, 3, 4, 10, 11))
                 val lotto5 = Lotto(listOf(1, 2, 3, 10, 11, 12))
-                val lottofail = Lotto(listOf(20, 21, 22, 23, 24, 25))
+                val lotto6 = Lotto(listOf(20, 21, 22, 23, 24, 25))
 
-                val lottoBundle = LottoBundle(listOf(lotto1, lotto2, lotto3, lotto4, lotto5, lottofail))
+                val lottoBundle = LottoBundle(listOf(lotto1, lotto2, lotto3, lotto4, lotto5, lotto6))
                 val winningNumbers = WinningNumbers(listOf(1, 2, 3, 4, 5, 6), 7)
 
                 val result = lottoBundle.checkRanks(winningNumbers)

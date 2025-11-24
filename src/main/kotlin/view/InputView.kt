@@ -16,32 +16,32 @@ open class InputView {
 
     }
 
-    open fun readPurchaseType() : String {
+    open fun readPurchaseType(): String {
         println(INPUT_MESSAGE)
         return readln()
     }
 
-    open fun readPurchaseCount() : String{
+    open fun readPurchaseCount(): String {
         println(PURCHASE_AMOUNT_MESSAGE)
         return readln()
     }
 
-    open fun readInputMoney() : String {
+    open fun readInputMoney(): String {
         println(INPUT_MONEY_MESSAGE)
         return readln()
     }
 
-    open fun readManualLottoNumbers(index : Int) : String {
+    open fun readManualLottoNumbers(index: Int): String {
         println(MANUAL_LOTTO_MESSAGE.format(index))
         return readln()
     }
 
-    open fun readWinningLottoNumbers() : String {
+    open fun readWinningLottoNumbers(): String {
         println(WINNING_LOTTO_MESSAGE)
         return readln()
     }
 
-    open fun readBonusNumber() : String {
+    open fun readBonusNumber(): String {
         println(BONUS_NUMBER_MESSAGE)
         return readln()
     }

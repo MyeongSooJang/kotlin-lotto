@@ -1,13 +1,10 @@
 package controller
 
-import LottoMachine
 import domain.*
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.collections.shouldHaveSize
-import view.InputView
-import view.OutputView
+
 
 class LottoApplicationTest : DescribeSpec({
     describe("LottoApplication") {

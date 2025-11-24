@@ -180,4 +180,34 @@ class RankTest : DescribeSpec({
             }
         }
     }
+
+    describe("상금 및 등수 검증") {
+
+        context("등수별 상금 검증") {
+
+            it("1등의 상금은 2,000,000,000원이다") {
+                Rank.FIRST.prize shouldBe 2_000_000_000
+            }
+
+            it("2등의 상금은 30,000,000원이다") {
+                Rank.SECOND.prize shouldBe 30_000_000
+            }
+
+            it("3등의 상금은 1,500,000원이다") {
+                Rank.THIRD.prize shouldBe 1_500_000
+            }
+
+            it("4등의 상금은 50,000원이다") {
+                Rank.FOURTH.prize shouldBe 50_000
+            }
+
+            it("5등의 상금은 5,000원이다") {
+                Rank.FIFTH.prize shouldBe 5_000
+            }
+
+            it("낙첨의 상금은 0원이다") {
+                Rank.NONE.prize shouldBe 0
+            }
+        }
+    }
 })

@@ -1,175 +1,188 @@
-# 🎰 로또 기계 (Kotlin Lotto)
+# Kotlin Lotto
 
-## 📝 프로젝트 소개
+## 프로젝트 소개
 
-**Kotlin을 이용하여 로또 머신의 로직을 구현한 프로젝트입니다.**
+우아한테크코스 프리코스 마지막 주차의 자유 주제로, Kotlin을 처음 학습하며 구현한 콘솔 로또 프로그램입니다.
 
-이 프로젝트는 실제 로또 게임의 흐름을 따라 사용자가 로또를 구매하고, 당첨 번호를 확인하여 수상 여부를 판정하는 시스템을 구현합니다.
+3주차 미션이었던 로또 게임을 Kotlin으로 구현한 뒤, 코드 리뷰에서 "자바의 껍데기를 씌운 코드"라는 피드백을 받아 Kotlin의 언어 기능을 적용하는 방향으로 리팩토링했습니다.
 
-### 개발 목표
-- 객체지향 설계 원칙을 따른 유지보수 가능한 코드 작성
-- 도메인 주도 설계(DDD)로 비즈니스 로직 분리
-- 철저한 단위 테스트로 코드 품질 보장
-- Kotlin의 고급 기능 활용 (Data class, Sealed class, Value class 등)
+## 개발 과정
 
----
+커밋 이력 기준입니다.
 
-## ✨ 주요 기능
+| 기간 | 내용 |
+|------|------|
+| 11/15 ~ 11/18 | 도메인 구현(Lotto, LottoBundle, Rank, WinningNumbers, LottoGenerator, LottoResult)과 단위 테스트, 입출력 View 작성 |
+| 11/20 | Kotlin 기능 적용 리팩토링: 입력 파싱 확장 함수, Value Class, Data Class, when 표현식, Scope Function, Destructuring, 메서드 참조, Sealed Interface 기반 Result |
+| 11/21 | Controller, Service, LottoMachine 계층 분리와 DTO 패키지 추가, 테스트 보강 |
+| 11/24 | 테스트 보강, 네이밍과 출력 메시지 정리 |
 
-### 1. 로또 구매 관리
-- **자동 번호 생성** : 1~45 범위에서 중복 없는 6개 번호 자동 생성
-- **수동 번호 생성** : 사용자가 직접 입력한 6개 번호로 로또 생성
-- **구매 개수 선택** : 1~100장까지 구매 가능
-- **거스름돈 계산** : 지불액과 총 가격 비교로 정확한 거스름돈 계산
+## 구현된 기능
 
-### 2. 입력값 유효성 검증
-- **번호 범위 검증** : 1~45 범위만 허용
-- **중복 검증** : 6개 번호의 중복 확인
-- **개수 검증** : 반드시 6개의 번호만 입력
-- **금액 검증** : 구매 가능한 금액 범위 확인
+### 로또 구매
+- 자동 또는 수동 구매 선택
+- 구매 장수 입력 (1장 ~ 100장, 1장당 1,000원)
+- 결제 금액 입력 후 거스름돈 계산
+- 수동 구매 시 장마다 번호 6개를 쉼표로 구분해 입력
+- 자동 구매 시 1 ~ 45 범위에서 중복 없는 6개 번호를 무작위로 생성하고 정렬
 
-### 3. 당첨 판정 및 통계
-- **당첨 번호 비교** : 당첨 번호와 보너스 번호를 통한 정확한 매칭
-- **등수 판정** : 일치 개수와 보너스 번호 여부로 등수 자동 판정
-  - 1등: 6개 일치 (2,000,000,000원)
-  - 2등: 5개 일치 + 보너스 (30,000,000원)
-  - 3등: 5개 일치 (1,500,000원)
-  - 4등: 4개 일치 (50,000원)
-  - 5등: 3개 일치 (5,000원)
-  - 꽝: 2개 이하 일치
+### 당첨 판정
+- 당첨 번호 6개와 보너스 번호 입력
+- 일치 개수와 보너스 번호 일치 여부로 등수 판정
 
-### 4. 결과 분석
-- **당첨금 계산** : 모든 로또의 당첨금 총합 계산
-- **수익률 분석** : 투자 금액 대비 수익률 계산 및 표시
-- **상세 통계** : 등수별 당첨 개수 및 금액 조회
+| 등수 | 조건 | 당첨금 |
+|------|------|--------|
+| 1등 | 6개 일치 | 2,000,000,000원 |
+| 2등 | 5개 일치 + 보너스 번호 일치 | 30,000,000원 |
+| 3등 | 5개 일치 | 1,500,000원 |
+| 4등 | 4개 일치 | 50,000원 |
+| 5등 | 3개 일치 | 5,000원 |
+| 없음 | 그 외 | 0원 |
 
----
+### 결과 출력
+- 구매한 로또 번호 목록
+- 등수별 당첨 개수와 당첨금
+- 총 당첨 금액과 수익률
 
-## 📂 프로젝트 구조 및 설계
+### 입력 검증
+- `Lotto`, `WinningNumbers`의 `init` 블록에서 `require`로 번호 개수(6개), 범위(1 ~ 45), 중복, 보너스 번호 중복을 검증
+- `Money`는 음수, `Count`는 1 ~ 100 범위를 벗어나면 생성 시 예외 발생
+- 구매 유형, 구매 장수, 금액, 번호가 숫자 형식이 아니면 안내 메시지를 출력하고 다시 입력받음
+
+## 프로젝트 구조
 
 ```
 src/
 ├── main/kotlin/
-│   ├── domain/               # 📌 도메인 계층 - 비즈니스 로직
-│   │   ├── Lotto.kt         # 로또 번호를 나타내는 도메인 모델
-│   │   ├── WinningNumbers.kt # 당첨 번호와 보너스 번호 관리
-│   │   ├── Rank.kt          # 로또 등수를 나타내는 Enum
-│   │   ├── LottoBundle.kt   # 여러 로또를 관리하는 일급 컬렉션
-│   │   ├── LottoGenerator.kt # 로또 번호 생성 로직
-│   │   ├── LottoMachine.kt   # 로또 머신의 전체 흐름 제어
-│   │   ├── LottoResult.kt    # 게임 결과 데이터
-│   │   ├── ValueTypes.kt     # Money, Count 값 타입
-│   │   └── ...
-│   ├── service/              # 🔧 서비스 계층 - 비즈니스 로직 조정
-│   │   └── LottoService.kt   # 게임 플로우 조정
-│   ├── controller/           # 🎮 제어 계층 - 입출력 제어
-│   │   └── LottoController.kt # 사용자 입출력 중앙 제어
-│   ├── view/                 # 👁️ 뷰 계층 - 사용자 입출력
-│   │   ├── InputView.kt      # 사용자 입력 관리
-│   │   └── OutputView.kt     # 게임 결과 출력
-│   ├── dto/                  # 📦 데이터 전송 객체
-│   │   ├── GameData.kt
+│   ├── LottoApplication.kt      # main 함수 (package controller)
+│   ├── Extension.kt             # String 입력 변환 확장 함수
+│   ├── controller/
+│   │   └── LottoController.kt   # 게임 실행과 결과 출력 호출
+│   ├── service/
+│   │   └── LottoService.kt      # 구매와 당첨 확인 흐름 조정
+│   ├── domain/
+│   │   ├── Lotto.kt             # 로또 번호 6개 (data class)
+│   │   ├── LottoBundle.kt       # 로또 목록 (일급 컬렉션)
+│   │   ├── WinningNumbers.kt    # 당첨 번호와 보너스 번호
+│   │   ├── Rank.kt              # 등수 (enum)
+│   │   ├── LottoResult.kt       # 등수별 결과, 총 당첨금, 수익률
+│   │   ├── LottoGenerator.kt    # 자동, 수동 로또 생성
+│   │   ├── LottoMachine.kt      # 입력 처리와 로또 생성, 당첨 판정
+│   │   ├── PurchaseType.kt      # 구매 유형 (자동, 수동)
+│   │   ├── LottoConstant.kt     # 로또 관련 상수
+│   │   ├── ValueTypes.kt        # Money, Count (value class)
+│   │   └── Result.kt            # Success, Failure (sealed interface)
+│   ├── dto/
+│   │   ├── PurchaseData.kt
 │   │   ├── GameResult.kt
-│   │   └── PurchaseData.kt
-│   ├── Extension.kt          # 🔗 확장 함수들 (입력값 검증 및 변환)
-│   └── LottoApplication.kt   # 🚀 메인 진입점
-│
-└── test/kotlin/              # ✅ 테스트 계층
-    ├── domain/               # 도메인 로직 테스트 (약 1,200줄)
-    └── controller/           # 통합 테스트
+│   │   └── GameData.kt
+│   └── view/
+│       ├── InputView.kt
+│       └── OutputView.kt
+└── test/kotlin/
+    ├── controller/LottoApplicationTest.kt
+    └── domain/                  # 도메인 단위 테스트 9개
 ```
 
-### 아키텍처의 특징
+실행 흐름은 다음과 같습니다.
 
-**계층화 아키텍처 (Layered Architecture)**
 ```
-User Input → Controller → Service → Domain → Database
-                            ↓
-                         OutputView
-```
-
-1. **Controller**: 입출력 제어
-2. **Service**: 비즈니스 로직 조정
-3. **Domain**: 핵심 비즈니스 로직
-4. **View**: 사용자 입출력
-
----
-
-## 🛠️ 핵심 설계 패턴 및 기법
-
-### 1. 일급 컬렉션 (First-Class Collection)
-
-**LottoBundle.kt**
-```kotlin
-class LottoBundle(private val lottos: List<Lotto>) {
-    fun checkRanks(winningNumbers: WinningNumbers): Map<Rank, Int> =
-        lottos.map { winningNumbers.match(it) }
-            .groupingBy { it }
-            .eachCount()
-}
+main -> LottoController -> LottoService -> LottoMachine -> domain
+                  |                            |
+              OutputView                   InputView
 ```
 
-**장점:**
-- 컬렉션에 대한 비즈니스 로직을 캡슐화
-- 리스트 직접 접근 방지
-- 의도가 명확한 메서드명
+## 적용한 Kotlin 기능
 
-### 2. 값 객체 (Value Object) - @JvmInline
+### Value Class
 
-**ValueTypes.kt**
+`Money`와 `Count`로 금액과 장수를 구분하고, 연산자 오버로딩으로 `Count * Money`처럼 표현합니다.
+
 ```kotlin
 @JvmInline
 value class Money(val amount: Long) {
     init {
-        require(amount >= 0) { "금액은 음수가 될 수 없습니다" }
+        require(amount >= 0) { "금액은 음수가 될수 없습니다" }
     }
 
-    operator fun plus(other: Money) = Money(amount + other.amount)
     operator fun times(count: Count) = Money(amount * count.value)
+    operator fun minus(other: Money) = Money(amount - other.amount)
+    operator fun plus(other: Money) = Money(amount + other.amount)
+    operator fun compareTo(other: Money) = amount.compareTo(other.amount)
 }
 
 @JvmInline
-value class Count(value: Int) {
+value class Count(val value: Int) {
     init {
         require(value in 1..100) { "1~100장까지 구매 가능합니다" }
     }
+
+    operator fun times(price: Money) = Money(price.amount * value)
 }
 ```
 
-**장점:**
-- 타입 안전성: Long 대신 Money 사용으로 의도 명확화
-- 성능 최적화: @JvmInline으로 런타임 래퍼 제거
-- 불변성 보장: init 블록에서 유효성 검증
-- 연산자 오버로딩으로 직관적인 코드
+### Sealed Interface와 확장 함수를 이용한 입력 처리
 
-### 3. Data Class
+입력 문자열 변환 결과를 `Result`로 표현하고, `LottoMachine`에서 `when`으로 성공과 실패를 분기합니다.
 
-**GameResult.kt**
 ```kotlin
-data class GameResult(
-    val winningNumbers: WinningNumbers,
-    val bonusNumber: Int,
-    val matchResults: Map<Rank, Int>
-) {
-    val totalPrize: Long
-        get() = matchResults.entries.sumOf { (rank, count) -> rank.prize * count }
+// Result.kt
+sealed interface Result<T> {
+    data class Success<T>(val value: T) : Result<T>
+    data class Failure<T>(val error: String) : Result<T>
+}
+
+// Extension.kt
+fun String.toPurchaseCount(): Result<Count> =
+    toIntOrNull()?.let { Success(Count(it)) }
+        ?: Failure("유효한 숫자를 입력해주세요")
+
+// LottoMachine.kt
+fun getPurchaseCount(): Count =
+    when (val result = inputView.readPurchaseCount().toPurchaseCount()) {
+        is Success -> result.value
+        is Failure -> {
+            println(result.error)
+            getPurchaseCount()
+        }
+    }
+```
+
+### Data Class
+
+`Lotto`, `WinningNumbers`, `LottoResult`와 `dto` 패키지의 클래스에 사용했습니다. `LottoResult`는 계산 프로퍼티와 구조 분해를 함께 사용합니다.
+
+```kotlin
+data class LottoResult(val bundleResult: Map<Rank, Int>) {
+
+    val totalPrize
+        get() = bundleResult.entries.sumOf { (rank, count) -> rank.prize * count }
+
+    fun calculateProfitRate(purchaseAmount: Long): Double =
+        (totalPrize.toDouble() / purchaseAmount) * 100
 }
 ```
 
-**장점:**
-- 자동 생성: equals(), hashCode(), toString(), copy()
-- 보일러플레이트 코드 제거
-- 불변성 유지
+### 일급 컬렉션과 컬렉션 함수
 
-### 4. Enum을 이용한 도메인 모델링
-
-**Rank.kt**
 ```kotlin
-enum class Rank(
-    val matchCount: Int,
-    val matchBonusNumber: Boolean,
-    val prize: Long
-) {
+class LottoBundle(private val lottos: List<Lotto>) {
+
+    fun checkRanks(winningNumbers: WinningNumbers): Map<Rank, Int> =
+        lottos.map(winningNumbers::match)
+            .groupingBy { it }
+            .eachCount()
+
+    fun getLotto(): List<Lotto> = lottos
+}
+```
+
+### Enum
+
+등수를 6개로 제한하고, 일치 개수와 보너스 여부로 `Rank`를 찾습니다.
+
+```kotlin
+enum class Rank(val matchCount: Int, val matchBonusNumber: Boolean, val prize: Long) {
     FIRST(6, false, 2_000_000_000),
     SECOND(5, true, 30_000_000),
     THIRD(5, false, 1_500_000),
@@ -178,204 +191,49 @@ enum class Rank(
     NONE(0, false, 0);
 
     companion object {
-        fun findRank(matchCount: Int, matchBonusNumber: Boolean): Rank =
-            entries.find { it.matchCount == matchCount && it.matchBonusNumber == matchBonusNumber } ?: NONE
+        fun findRank(matchCount: Int, matchBonusNumber: Boolean): Rank = /* ... */
     }
 }
 ```
 
-**장점:**
-- 정해진 6가지 등수만 존재
-- 잘못된 등수 생성 불가능 (컴파일 타임에 검증)
-- when 표현식에서 모든 케이스 처리 강제
+### 그 외
+- Scope Function: `LottoMachine`의 `with`, `LottoService`의 `let`, `run`, `LottoApplication`의 `apply`
+- Named Argument: `WinningNumbers(numbers = ..., bonusNumber = ...)`
+- 메서드 참조: `winningNumbers::match`, `LottoGenerator::generate`
+- `object`: `LottoConstant`
+- `companion object`: `LottoGenerator`, `Rank`, `PurchaseType`
 
-### 5. Sealed Class를 이용한 함수형 에러 처리
+## 테스트
 
-**Result.kt**
-```kotlin
-sealed interface Result<T> {
-    data class Success<T>(val value: T) : Result<T>
-    data class Failure<T>(val error: String) : Result<T>
-}
-```
+- 프레임워크: Kotest 5.8.0 (`DescribeSpec`), JUnit Platform
+- 테스트 클래스 10개, 테스트 케이스 180개 (`it` 블록 기준)
 
-**사용 예시:**
-```kotlin
-fun processPurchase(payment: Money): Result<PurchaseData> {
-    return if (payment.amount >= totalPrice) {
-        Result.Success(purchaseData)
-    } else {
-        Result.Failure("금액이 부족합니다")
-    }
-}
+| 테스트 클래스 | 케이스 수 |
+|---------------|-----------|
+| ValueTypesTest | 37 |
+| WinningNumbersTest | 35 |
+| RankTest | 32 |
+| LottoMachineTest | 15 |
+| LottoTest | 13 |
+| LottoBundleTest | 11 |
+| LottoResultTest | 10 |
+| PurchaseTypeTest | 10 |
+| LottoApplicationTest | 9 |
+| LottoGeneratorTest | 8 |
 
-// 사용할 때
-when (val result = processPurchase(payment)) {
-    is Result.Success -> println("구매 성공: ${result.value}")
-    is Result.Failure -> println("에러: ${result.error}")
-}
-```
+`LottoMachineTest`는 `InputView`를 상속한 객체로 입력을 대체해 콘솔 입력 없이 검증합니다.
 
-**장점:**
-- null 사용 제거
-- Exception 없이 명시적 에러 처리
-- 타입 안전성
+## 실행 방법
 
-### 6. 확장 함수를 이용한 입력 검증
+- 요구사항: Java 21, Kotlin 2.2.0 (Gradle JVM toolchain 21)
+- 실행: IntelliJ에서 `LottoApplication.kt`의 `main` 함수를 실행합니다. `application` 플러그인을 설정하지 않아 `./gradlew run`은 사용할 수 없습니다.
+- 테스트: `./gradlew test`
+- 특정 테스트 클래스: `./gradlew test --tests "domain.LottoTest"`
 
-**Extension.kt**
-```kotlin
-fun String.toLottoNumbers(): Result<List<Int>> {
-    return try {
-        val numbers = this.split(",").map { it.trim().toInt() }
+## 현재 한계
 
-        require(numbers.size == 6) { "번호는 6개여야 합니다" }
-        require(numbers.all { it in 1..45 }) { "1~45 범위의 번호만 입력 가능합니다" }
-        require(numbers.distinct().size == 6) { "중복된 번호가 있습니다" }
-
-        Result.Success(numbers.sorted())
-    } catch (e: Exception) {
-        Result.Failure(e.message ?: "입력 형식이 잘못되었습니다")
-    }
-}
-```
-
-**장점:**
-- 검증 로직의 재사용성
-- 입력 계층과 도메인 로직 분리
-- 명확한 에러 메시지
-
----
-
-## ✅ 테스트 전략
-
-### 테스트 프레임워크
-- **Kotest 5.8.0**: BDD 스타일의 테스트 프레임워크
-- **JUnit 5**: 테스트 러너
-
-### 테스트 커버리지
-
-| 계층 | 테스트 파일 | 라인 수 | 주요 테스트 |
-|------|----------|--------|----------|
-| Domain | LottoTest.kt | 117 | 로또 생성, 유효성 검증 (18개) |
-| Domain | WinningNumbersTest.kt | 325 | 당첨 번호 비교, 등수 판정 (50+개) |
-| Domain | RankTest.kt | 213 | 모든 등수 속성, findRank (40개) |
-| Domain | LottoGeneratorTest.kt | 72 | 자동/수동 생성 |
-| Domain | LottoBundleTest.kt | - | 일급 컬렉션 동작 |
-| Domain | ValueTypesTest.kt | - | Money, Count 검증 |
-| Controller | LottoApplicationTest.kt | - | 통합 테스트 |
-| **합계** | **총 10+개** | **약 1,200줄** | **100+개 테스트** |
-
-### 테스트 예시
-
-```kotlin
-describe("Lotto") {
-    context("로또 생성") {
-        it("6개의 서로 다른 번호로 로또를 생성한다") {
-            val lotto = Lotto(listOf(1, 2, 3, 4, 5, 6))
-            lotto.lottoNumbers shouldHaveSize 6
-        }
-
-        it("로또 번호는 1~45 범위여야 한다") {
-            shouldThrow<IllegalArgumentException> {
-                Lotto(listOf(0, 1, 2, 3, 4, 5))  // 0은 범위 초과
-            }
-        }
-
-        it("중복된 번호가 있으면 예외를 발생시킨다") {
-            shouldThrow<IllegalArgumentException> {
-                Lotto(listOf(1, 1, 2, 3, 4, 5))  // 1이 중복
-            }
-        }
-    }
-}
-```
-
-**테스트의 특징:**
-- ✅ BDD 스타일로 가독성 높음
-- ✅ describe-context-it 구조로 테스트 의도 명확화
-- ✅ 정상 케이스와 예외 케이스 모두 검증
-- ✅ 경계값 테스트 포함
-
----
-
-## 🚀 실행 방법
-
-### 필수 요구사항
-- Java 21 이상
-- Kotlin 2.2.0
-
-### 빌드 및 실행
-```bash
-# 프로젝트 빌드
-./gradlew build
-
-# 애플리케이션 실행
-./gradlew run
-
-# 테스트 실행
-./gradlew test
-
-# 특정 테스트 클래스 실행
-./gradlew test --tests LottoTest
-```
-
-### 게임 플레이 흐름
-1. 구매 유형 선택 (자동/수동)
-2. 구매 개수 입력 (1~100장)
-3. 금액 입력
-4. 로또 번호 생성 또는 입력
-5. 당첨 번호 입력
-6. 보너스 번호 입력
-7. 당첨 결과 확인 및 수익률 분석
-
----
-
-## 📊 주요 코드 메트릭
-
-- **총 라인 수**: 약 2,400줄
-- **메인 코드**: 약 1,200줄
-- **테스트 코드**: 약 1,200줄
-- **테스트 케이스**: 100+ 개
-- **주요 클래스**: 20+ 개
-- **테스트 커버리지**: 도메인 중심
-
----
-
-## 💡 학습 포인트
-
-### Kotlin 고급 기능 활용
-- ✅ Data class와 자동 생성 메서드
-- ✅ Enum과 Sealed class의 타입 안전성
-- ✅ @JvmInline value class를 이용한 성능 최적화
-- ✅ 확장 함수 (Extension Functions)
-- ✅ 고차 함수와 함수형 프로그래밍
-
-### 설계 패턴 적용
-- ✅ 계층화 아키텍처 (Layered Architecture)
-- ✅ 일급 컬렉션 패턴 (First-Class Collection)
-- ✅ 값 객체 패턴 (Value Object)
-- ✅ 팩토리 패턴 (Factory Pattern)
-- ✅ 함수형 에러 처리 (Functional Error Handling)
-
-### 객체지향 원칙
-- ✅ 단일 책임 원칙 (SRP)
-- ✅ 개방-폐쇄 원칙 (OCP)
-- ✅ 리스코프 치환 원칙 (LSP)
-- ✅ 의존성 역전 원칙 (DIP)
-
-### 테스트 주도 개발 (TDD)
-- ✅ BDD 스타일의 명확한 테스트
-- ✅ 예외 케이스와 경계값 테스트
-- ✅ 높은 테스트 커버리지
-
----
-
-## 🎯 프로젝트 결과
-
-이 프로젝트를 통해:
-- **로또 게임의 전체 플로우**를 구현할 수 있음
-- **Kotlin의 고급 기능**을 실전에서 활용할 수 있음
-- **계층화 아키텍처**를 이해하고 적용할 수 있음
-- **단위 테스트와 통합 테스트**의 중요성을 인식할 수 있음
-- **객체지향 설계 원칙**을 실제로 적용할 수 있음
+- 테스트 180개 중 4개가 실패합니다.
+  - `ValueTypesTest` 3개: `Money`가 0원을 허용하도록 바뀐 뒤 기존 기대값("0원이면 예외", 예외 메시지)을 수정하지 않았습니다.
+  - `LottoMachineTest` 1개: 무작위로 생성한 로또가 고정 당첨 번호와 일치해 1등이 된다고 가정하는 테스트입니다.
+- 숫자 형식 오류만 다시 입력받습니다. 장수 범위, 번호 개수와 중복, 구매 유형(1, 2 외 입력), 결제 금액 부족은 예외가 발생해 프로그램이 종료됩니다.
+- 다시 입력받는 로직은 루프가 아닌 재귀 호출로 구현되어 있습니다.
